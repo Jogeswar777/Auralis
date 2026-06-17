@@ -1,0 +1,30 @@
+# --- Sensitive Credentials ---
+# Never upload your API keys or secrets
+config.py
+.env
+
+# --- Python Environment & Bytecode ---
+# Ignore virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Ignore compiled python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- OS Generated Files ---
+.DS_Store
+Thumbs.db
+
+# --- Logs and Data ---
+# Ignore logs and local database files (if you create any)
+*.log
+data/
+
+# --- IDE/Editor Specific ---
+.vscode/
+.idea/
