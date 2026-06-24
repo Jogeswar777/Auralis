@@ -1,27 +1,23 @@
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "auralis-moodify"
-version = "0.1.0"
-description = "Multimodal emotion-aware music streaming engine."
+version = "1.0.0"
+description = "Multimodal AI mood detection that plays Spotify music"
 readme = "README.md"
 requires-python = ">=3.10"
-authors = [
-  { name = "Your Name", email = "your.email@example.com" },
-]
+license = { text = "MIT" }
+
 dependencies = [
     "opencv-python",
-    "speechrecognition",
-    "spotipy",
     "deepface",
+    "speechrecognition",
+    "pyaudio",
+    "spotipy",
     "transformers",
-    "customtkinter",
     "torch",
-    "tensorflow"
+    "customtkinter",
+    "pandas",
+    "numpy",
+    "datasets",
+    "evaluate",
+    "python-dotenv",
 ]
-
-[project.scripts]
-# This allows users to run your app by typing 'auralis' in the terminal
-auralis = "app:main"
