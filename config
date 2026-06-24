@@ -1,0 +1,14 @@
+# config.py
+
+SPOTIFY_CLIENT_ID = "45ffeae61c28442db0a96b067fc0f2ca"
+SPOTIFY_CLIENT_SECRET = "227d43cf2eec488b915df9aa2fb4d3d2"
+SPOTIFY_REDIRECT_URI = "http://127.0.0.1:3000"
+
+SPOTIFY_SCOPE = "user-modify-playback-state user-read-playback-state"
+
+MOOD_MAPPING = {
+    'joy': 'happy', 'happy': 'happy', 'surprise': 'happy',
+    'sadness': 'sad', 'sad': 'sad',
+    'anger': 'angry', 'angry': 'angry',
+    'neutral': 'neutral', 'love': 'neutral', 'fear': 'neutral'
+}
