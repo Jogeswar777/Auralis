@@ -1,30 +1,29 @@
-# --- Sensitive Credentials ---
-# Never upload your API keys or secrets
-config.py
+# Environment & secrets
 .env
 
-# --- Python Environment & Bytecode ---
-# Ignore virtual environments
-venv/
-.venv/
-env/
-.env/
+# Trained models
+D:/auralis_custom_brain/
+custom_emotion_model/
+training_snapshots/
+logs/
+auralis_training_checkpoint/
 
-# Ignore compiled python files
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# --- OS Generated Files ---
-.DS_Store
-Thumbs.db
+# Spotify auth cache (auto-generated on first login)
+.cache
 
-# --- Logs and Data ---
-# Ignore logs and local database files (if you create any)
-*.log
-data/
+# Dataset files
+*.csv
 
-# --- IDE/Editor Specific ---
+# VS Code / editor
 .vscode/
 .idea/
+
+# OS files
+.DS_Store
+Thumbs.db
