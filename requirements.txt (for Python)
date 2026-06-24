@@ -1,8 +1,13 @@
 opencv-python
-speechrecognition
-spotipy
 deepface
+speechrecognition
+pyaudio
+spotipy
 transformers
-customtkinter
 torch
-tensorflow
+customtkinter
+pandas
+numpy
+datasets
+evaluate
+python-dotenv
