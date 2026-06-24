@@ -1,0 +1,58 @@
+# train_engine.py
+import os
+import torch
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
+from datasets import load_dataset
+
+# 1. Verify your GPU/CPU state configurations
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Using processing device target: {device.upper()}")
+
+# 2. Load your downloaded custom dataset CSV file
+dataset_path = "D:/custom_training_data/new_dataset.csv"
+if not os.path.exists(dataset_path):
+    raise FileNotFoundError(f"Missing dataset! Make sure your file is at: {dataset_path}")
+
+raw_dataset = load_dataset("csv", data_files={"train": dataset_path})
+
+# 3. Download the exact DistilBERT baseline structural architecture
+base_model_name = "bhadresh-savani/distilbert-base-uncased-emotion"
+tokenizer = AutoTokenizer.from_pretrained(base_model_name)
+
+def tokenize_batch(batch_elements):
+    return tokenizer(batch_elements["text"], padding="max_length", truncation=True)
+
+print("Mapping token sequences and string layers...")
+tokenized_data = raw_dataset.map(tokenize_fn=tokenize_batch, batched=True)
+
+# 4. Load the classification neural network layers configuration
+model = AutoModelForSequenceClassification.from_pretrained(base_model_name, num_labels=5, ignore_mismatched_sizes=True)
+model.to(device)
+
+# 5. Establish standard deep learning training hyperparameters
+training_hyperparameters = TrainingArguments(
+    output_dir="./auralis_training_checkpoint",
+    learning_rate=3e-5, # Controls backpropagation optimization steps speed
+    per_device_train_batch_size=4,
+    num_train_epochs=4, # Loop cycles model reads over dataset rows
+    weight_decay=0.01,
+    logging_steps=5,
+    save_strategy="no"
+)
+
+# 6. Initialize standard supervised learning execution loop
+trainer = Trainer(
+    model=model,
+    args=training_hyperparameters,
+    train_dataset=tokenized_data["train"]
+)
+
+print("\n🚀 Beginning custom text/audio classification layer fine-tuning optimization run...")
+trainer.train()
+
+# 7. Save the new custom intelligence brain configuration onto your drive
+output_model_path = "D:/auralis_custom_brain"
+model.save_pretrained(output_model_path)
+tokenizer.save_pretrained(output_model_path)
+
+print(f"\n✓ Custom training complete! Weights successfully generated at: {output_model_path}")
