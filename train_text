@@ -1,0 +1,100 @@
+# train_text.py
+import os
+import sys
+import pandas as pd
+import numpy as np
+from datasets import Dataset
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer
+import transformers
+import evaluate
+
+# Force Python to push print lines instantly to the terminal matrix
+sys.stdout.reconfigure(line_buffering=True)
+
+def main():
+    print("[*] Script Initialized! Checking directory nodes...")
+    dataset_path = "emotions.csv"
+    
+    if not os.path.exists(dataset_path):
+        print(f"[-] Error: Could not find '{dataset_path}' in this folder.")
+        print("Please place the Kaggle Emotions dataset here and name it 'emotions.csv'.")
+        return
+
+    print("[*] Successfully found 'emotions.csv'. Loading data array via Pandas...")
+    df = pd.read_csv(dataset_path)
+    print(f"[✓] Data loaded successfully. Detected {len(df)} total rows.")
+
+    unique_labels = sorted(df['label'].unique().tolist())
+    print(f"[*] Found unique emotion classes: {unique_labels}")
+    label2id = {label: idx for idx, label in enumerate(unique_labels)}
+    id2label = {idx: label for idx, label in enumerate(unique_labels)}
+    
+    df['label'] = df['label'].map(label2id)
+
+    print("[*] Converting dataset structures into Hugging Face protocol arrays...")
+    hf_dataset = Dataset.from_pandas(df)
+    hf_dataset = hf_dataset.train_test_split(test_size=0.15, seed=42)
+
+    print("[*] CONTACTING SERVER: Pulling DistilBERT Tokenizer (If first run, this can take a moment)...")
+    model_checkpoint = "distilbert-base-uncased"
+    tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+
+    print("[*] Mapping and tokenizing text sequences...")
+    def tokenize_maps(batch):
+        return tokenizer(batch["text"], truncation=True, padding="max_length", max_length=128)
+
+    tokenized_data = hf_dataset.map(tokenize_maps, batched=True)
+
+    print("[*] CONTACTING SERVER: Downloading baseline Model Weights (~260MB)... Please wait...")
+    model = AutoModelForSequenceClassification.from_pretrained(
+        model_checkpoint, 
+        num_labels=len(unique_labels),
+        id2label=id2label,
+        label2id=label2id
+    )
+
+    print("[*] Loading Evaluation modules...")
+    metric = evaluate.load("accuracy")
+    def compute_metrics(eval_pred):
+        predictions, labels = eval_pred
+        preds = np.argmax(predictions, axis=-1)
+        return metric.compute(predictions=preds, references=labels)
+
+    print("[*] Packing training environment parameter matrix...")
+    # Force the framework to output data to the screen frequently
+    transformers.logging.set_verbosity_info() 
+    
+    training_args = TrainingArguments(
+        output_dir="./training_snapshots",
+        learning_rate=2e-5,
+        per_device_train_batch_size=16,
+        per_device_eval_batch_size=16,
+        num_train_epochs=2,
+        weight_decay=0.01,
+        eval_strategy="epoch",
+        save_strategy="epoch",
+        load_best_model_at_end=True,
+        logging_steps=10,             # Log metrics every 10 steps instead of 50
+        logging_dir="./logs",
+        disable_tqdm=False            # Explicitly force progress bars to print out
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=tokenized_data["train"],
+        eval_dataset=tokenized_data["test"],
+        tokenizer=tokenizer,
+        compute_metrics=compute_metrics,
+    )
+
+    print("\n=== ENGINE ARMED: COMMENCING FINE-TUNING EXECUTION ===")
+    trainer.train()
+
+    print("\n[*] Exporting production weights to './custom_emotion_model'...")
+    model.save_pretrained("./custom_emotion_model")
+    tokenizer.save_pretrained("./custom_emotion_model")
+    print("[✓] Custom pipeline brain successfully generated!")
+
+if __name__ == "__main__":
+    main()
