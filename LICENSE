@@ -1,34 +1,21 @@
-For a project like **Auralis x Moodify**, the best approach is to keep it simple. Unless you have specific legal requirements, you don't need to write the legal text yourself—you just need to select a standard license template.
+MIT License
 
-### The Recommended Choice: MIT License
+Copyright (c) 2026 Your Name
 
-For most personal coding projects, the **MIT License** is the gold standard. It is short, easy to understand, and very permissive:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-* **What it allows:** Anyone can use, copy, modify, merge, publish, distribute, sublicense, and sell copies of your software.
-* **What it asks:** The only condition is that you include your original copyright notice and the permission notice in any copy of the software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-### How to add it in GitHub
-
-GitHub makes this incredibly easy. You don't have to manually create or write the file:
-
-1. **Go to your repository** on GitHub.
-2. Click the **"Add file"** button, then select **"Create new file"**.
-3. In the filename field, type exactly **`LICENSE`** (all caps).
-4. A button labeled **"Choose a license template"** will appear on the right side. Click it.
-5. A list of licenses will appear on the left. Select **"MIT License"**.
-6. It will automatically populate the legal text with your name and the current year.
-7. Click **"Review and submit"**, then **"Commit changes"**.
-
----
-
-### Why the MIT License is great for you:
-
-* **Encourages adoption:** Because it’s so permissive, others are more likely to use or contribute to your project.
-* **Protects you:** It includes a clear disclaimer that the software is provided "as is," meaning you are not liable if something goes wrong when someone else runs your code.
-* **Professionalism:** Having a `LICENSE` file on your repo signals to recruiters and other developers that you understand how open-source projects work.
-
-**Important Note:** If your project grows and you eventually decide you want to force others to keep their improvements "open source" as well, you might look into the **GNU GPLv3** license in the future. For now, **MIT** is the best starting point.
-
----
-
-**Would you like me to help you format a `requirements.txt` file next, so anyone downloading your project knows exactly which libraries to install?**
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
