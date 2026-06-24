@@ -1,0 +1,15 @@
+print("[1/4] Checking pandas and numpy...")
+import pandas
+import numpy
+
+print("[2/4] Checking datasets...")
+import datasets
+
+print("[3/4] Checking PyTorch (This is the most common hang point)...")
+import torch
+print(f"      -> PyTorch loaded! CUDA available: {torch.cuda.is_available()}")
+
+print("[4/4] Checking Transformers...")
+import transformers
+
+print("[✓] All libraries imported perfectly without hanging!")
